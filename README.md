@@ -1,135 +1,199 @@
-# GenAI Platform - Local Setup Guide
+# GenAI Platform
 
-This guide provides comprehensive instructions to set up and run the GenAI Platform locally on your machine. It covers the backend (Go), frontend (React), and database (PostgreSQL) setup.
+## Overview
 
-## 1. Prerequisites
+GenAI Platform is a comprehensive, AI-powered system for document processing, research, and data analysis. It features PDF chat, GraphRAG, research assistant, resume feedback, and text-to-SQL conversion, all powered by modern LLMs and advanced backend services.
 
-Before you begin, ensure you have the following installed on your system:
+---
 
-*   **Go**: Version 1.18 or higher. You can download it from [https://golang.org/dl/](https://golang.org/dl/).
-*   **Node.js and npm**: Node.js version 14 or higher, and npm version 6 or higher. You can download them from [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
-*   **PostgreSQL**: Version 12 or higher. You can download it from [https://www.postgresql.org/download/](https://www.postgresql.org/download/).
-*   **Git**: For cloning the repository. Download from [https://git-scm.com/downloads](https://git-scm.com/downloads).
-*   **jq**: A lightweight and flexible command-line JSON processor. Install using your system's package manager (e.g., `sudo apt-get install jq` on Ubuntu, `brew install jq` on macOS).
-*   **pandoc**: A universal document converter. Install using your system's package manager (e.g., `sudo apt-get install pandoc` on Ubuntu, `brew install pandoc` on macOS).
+## Features
+- **Multi-PDF Chat**: Upload and chat with multiple PDFs using RAG and semantic search.
+- **GraphRAG**: Extract entities/relationships and build knowledge graphs for advanced Q&A.
+- **Research Assistant**: Autonomous AI agent for research and synthesis.
+- **Resume Feedback**: ATS scoring and AI feedback for resumes.
+- **Text-to-SQL**: Convert natural language to SQL and run queries.
+- **User Authentication**: JWT-based, secure.
+- **Admin Dashboard**: Usage stats, user management, and more.
 
-## 2. Clone the Repository
+---
 
-First, clone the GenAI Platform repository to your local machine:
+## Architecture
+- **Frontend**: React (Vite), Tailwind CSS, shadcn/ui, React Router
+- **Backend**: Go (Gin/Chi), JWT auth, PostgreSQL, file storage, API gateway
+- **AI Service**: Python (LangChain, OpenAI, Gemini, FAISS, PyPDF2, python-docx)
+- **Databases**: PostgreSQL (metadata), FAISS (vectors), Neo4j (knowledge graphs)
+- **File Storage**: Local (dev), AWS S3 (prod)
+- **Messaging/Email**: SendGrid
+- **Scheduler**: Cron jobs
+- **Agent Orchestrator**: Go FSM
 
+### Data Flow
+1. Frontend sends requests to Go backend API gateway
+2. API gateway routes to microservices (PDF, GraphRAG, etc.)
+3. Microservices interact with databases and LLM APIs
+4. File uploads handled by file service
+5. Async tasks via Go routines/message queue
+6. LLM interactions via centralized service
+
+---
+
+## Local Setup
+
+### Prerequisites
+- Go 1.18+
+- Node.js 14+/npm 6+
+- Python 3.11+
+- PostgreSQL 12+
+- Git
+- jq, pandoc (optional)
+
+### 1. Clone the Repository
 ```bash
-git clone <repository_url> # Replace with the actual repository URL
-cd genai-platform
+git clone https://github.com/bharat3645/GenAI.git
+cd genai-platform-local
 ```
 
-## 3. Backend Setup (Go)
-
-### 3.1. Database Configuration
-
-The backend uses PostgreSQL. You need to set up a database and configure the connection.
-
-1.  **Start PostgreSQL Service**: Ensure your PostgreSQL service is running. The command varies based on your operating system. For Ubuntu, it's typically:
-    ```bash
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
-    ```
-
-2.  **Create Database User and Database**: By default, the application expects a user `postgres` with password `password` and a database named `genai_platform`. You can create them using the following commands:
-    ```bash
+### 2. Backend Setup (Go)
+- Ensure PostgreSQL is running and create the database/user:
+```bash
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'password';"
 sudo -u postgres createdb genai_platform
-    ```
-    If you wish to use different credentials or database name, you will need to update the `DATABASE_URL` environment variable accordingly.
-
-3.  **Database Migrations**: The application will automatically run database migrations on startup. No manual migration steps are required.
-
-### 3.2. Build and Run the Backend
-
-Navigate to the `genai-platform` directory (if you are not already there) and build the Go application:
-
+```
+- Configure `.env` in `genai-platform/`:
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=password
+DB_NAME=genai_platform
+JWT_SECRET=your-super-secret-jwt-key-here
+PORT=8080
+UPLOAD_DIR=uploads
+OPENAI_API_KEY=your-openai-api-key
+GEMINI_API_KEY=your-gemini-api-key
+```
+- Build and run:
 ```bash
-cd /path/to/your/genai-platform # Replace with your actual path
+cd genai-platform
 go mod tidy
 go build -o bin/server_local ./cmd/server
-```
-
-Now, you can run the backend server:
-
-```bash
 ./bin/server_local
 ```
 
-The backend server will start on `http://localhost:8080` by default. You can change the port by setting the `PORT` environment variable (e.g., `PORT=9000 ./bin/server_local`).
-
-## 4. Frontend Setup (React)
-
-### 4.1. Install Dependencies
-
-Navigate to the `genai-frontend` directory and install the Node.js dependencies:
-
-```bash
-cd /path/to/your/genai-frontend # Replace with your actual path
-npm install
-```
-
-### 4.2. Configure API Endpoint
-
-The frontend needs to know where your backend API is located. Open the `genai-frontend/.env` file (create it if it doesn't exist) and add the following line:
-
+### 3. Frontend Setup (React)
+- Configure `.env` in `genai-frontend/`:
 ```
 VITE_API_BASE_URL=http://localhost:8080/api/v1
 ```
-
-### 4.3. Run the Frontend
-
-From the `genai-frontend` directory, start the development server:
-
+- Install and run:
 ```bash
+cd genai-frontend
+npm install
 npm run dev
 ```
 
-The frontend application will typically open in your browser at `http://localhost:5173`.
-
-## 5. AI Service Setup (Python)
-
-The AI services (LLM integration, RAG, etc.) are implemented in Python and called by the Go backend. These services require specific Python libraries.
-
-1.  **Install Python Dependencies**: Navigate to the `genai-platform` directory and install the required Python packages:
-    ```bash
-cd /path/to/your/genai-platform # Replace with your actual path
+### 4. AI Service (Python)
+- Install dependencies:
+```bash
+cd genai-platform
 pip3 install langchain langchain-openai langchain-google-genai faiss-cpu pypdf2 python-docx
-    ```
-
-2.  **API Keys**: For full functionality with real LLMs (OpenAI GPT, Google Gemini), you will need to set up your API keys as environment variables. The Python scripts will look for these. For example:
-    ```bash
-export OPENAI_API_KEY="your_openai_api_key"
-export GOOGLE_API_KEY="your_google_api_key"
-    ```
-    If these are not set, the AI services will use mock implementations.
-
-## 6. Accessing the Platform
-
-Once both the backend and frontend servers are running, open your web browser and navigate to the frontend URL (e.g., `http://localhost:5173`). You can then register a new user and start using the GenAI Platform.
-
-## 7. Troubleshooting
-
-*   **Port already in use**: If you encounter an error like `listen tcp 0.0.0.0:8080: bind: address already in use`, it means another process is using the required port. You can find and kill the process using:
-    ```bashrun
-sudo lsof -t -i:8080
-sudo kill -9 <PID>
-    ```
-    (Replace `8080` with the port number and `<PID>` with the process ID).
-*   **Database connection issues**: Double-check your PostgreSQL service status, user credentials, and database name. Ensure the `DATABASE_URL` environment variable (if set) is correct.
-*   **Frontend not connecting to backend**: Verify that the `VITE_API_BASE_URL` in your `.env` file points to the correct backend address and port.
-*   **AI service errors**: Ensure all Python dependencies are installed and that your API keys (if using real LLMs) are correctly set as environment variables.
-
-## 8. Development Notes
-
-*   **Backend (Go)**: Changes to Go files require recompilation (`go build`) and restarting the server.
-*   **Frontend (React)**: Changes to React files will typically trigger a hot reload in the development server.
-*   **Database Schema**: The Go application handles database migrations automatically on startup. If you make changes to the database schema in the Go models, ensure your migrations are correctly defined.
+```
+- Set API keys as env vars if using real LLMs:
+```bash
+export OPENAI_API_KEY=your_openai_api_key
+export GEMINI_API_KEY=your_gemini_api_key
+```
+- Run for testing:
+```bash
+python3 ai_service.py
+```
 
 ---
+
+## Production Deployment
+- See `DEPLOYMENT_GUIDE.md` for full details (systemd, Docker, Nginx, etc.)
+- Example: Build Go backend, serve frontend with Nginx, run Python AI service, configure environment variables, set up PostgreSQL.
+
+---
+
+## Usage Guide
+
+### 1. Register/Login
+- Visit frontend URL, sign up, and log in.
+
+### 2. PDF Chat
+- Go to "PDF Chat", upload PDFs, chat with the AI about their content.
+
+### 3. GraphRAG
+- Go to "GraphRAG", upload docs, explore knowledge graphs and relationships.
+
+### 4. Research Assistant
+- Enter a research question, start a task, and review the report.
+
+### 5. Resume Feedback
+- Upload a resume (and job description), get feedback and ATS score.
+
+### 6. Text-to-SQL
+- Enter a natural language query, view generated SQL and results.
+
+---
+
+## API Endpoints (Summary)
+- `POST /api/v1/auth/register` - Register
+- `POST /api/v1/auth/login` - Login
+- `POST /api/v1/auth/logout` - Logout
+- `POST /api/v1/documents/upload` - Upload document
+- `GET /api/v1/documents` - List documents
+- `DELETE /api/v1/documents/:id` - Delete document
+- `POST /api/v1/chat/sessions` - Create chat session
+- `POST /api/v1/chat/message` - Send chat message
+- `GET /api/v1/chat/sessions` - List chat sessions
+- `POST /api/v1/research/tasks` - Submit research task
+- `GET /api/v1/research/tasks` - List research tasks
+- `GET /api/v1/research/tasks/:id` - Get task result
+- `POST /api/v1/resume/upload` - Upload resume
+- `GET /api/v1/resume/feedback/:id` - Get resume feedback
+- `POST /api/v1/sql/query` - Execute SQL query
+- `GET /api/v1/sql/queries` - List SQL queries
+
+---
+
+## Troubleshooting
+- **Database issues**: Check PostgreSQL status, credentials, firewall.
+- **AI service errors**: Check Python dependencies, API keys, rate limits.
+- **File upload issues**: Check permissions, directory existence, disk space.
+- **Frontend issues**: Clear node_modules, check Node.js version, verify env vars.
+- **Logs**: Backend logs to stdout; use `journalctl` or logrotate for production.
+
+---
+
+## Security & Best Practices
+- JWT auth, bcrypt password hashing
+- File validation, malware scanning, access controls
+- Strong DB passwords, SSL, backups
+- Rate limiting, input validation, CORS, API key management
+- Regular updates, log rotation, health checks
+
+---
+
+## Scaling & Performance
+- Horizontal scaling of microservices
+- DB replication, vector DB distribution, Neo4j clustering
+- Async processing, caching (Redis), load balancing
+- Metrics: request times, error rates, resource usage
+
+---
+
+## Support & Contribution
+- For help, see this README, `USER_GUIDE.md`, or open an issue.
+- Contributions welcome! Fork, branch, and submit PRs.
+- For feedback, use the platform or contact maintainers.
+
+---
+
+**Platform Version**: 1.0  
+**Maintainers**: [Your Name/Org]  
+**License**: [Your License]
 
 
 
