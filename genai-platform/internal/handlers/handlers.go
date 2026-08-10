@@ -281,21 +281,76 @@ func (h *Handler) ChatQuery(w http.ResponseWriter, r *http.Request) {
 }
 
 // Graph RAG handlers
+// GraphUpload (re-)triggers GraphRAG entity/relationship extraction for a document
+// that has already been uploaded via /pdf/upload. Useful for reprocessing a document
+// after a failed run, or for documents uploaded before GraphRAG processing existed.
 func (h *Handler) GraphUpload(w http.ResponseWriter, r *http.Request) {
-	// Placeholder for GraphRAG upload
+	userID := r.Context().Value("user_id").(int)
+
+	var req struct {
+		DocumentID int `json:"document_id"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.DocumentID == 0 {
+		http.Error(w, "Invalid request body: document_id is required", http.StatusBadRequest)
+		return
+	}
+
+	var filePath string
+	if err := h.db.QueryRow(
+		`SELECT file_path FROM documents WHERE id = $1 AND user_id = $2`,
+		req.DocumentID, userID,
+	).Scan(&filePath); err != nil {
+		http.Error(w, "Document not found", http.StatusNotFound)
+		return
+	}
+
+	go func() {
+		if err := h.graphRAGService.ProcessDocumentForGraphRAG(req.DocumentID, filePath); err != nil {
+			fmt.Printf("GraphRAG processing failed for document %d: %v\n", req.DocumentID, err)
+		}
+	}()
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
-		"status":  "success",
-		"message": "GraphRAG upload endpoint - to be implemented",
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"document_id": req.DocumentID,
+		"status":      "processing",
+		"message":     "GraphRAG processing started for document.",
 	})
 }
 
+// GraphQuery runs a hybrid (vector + keyword + graph) retrieval query directly against
+// the knowledge graph, without going through the chat/LLM pipeline.
 func (h *Handler) GraphQuery(w http.ResponseWriter, r *http.Request) {
-	// Placeholder for GraphRAG query
+	var req struct {
+		Query       string `json:"query"`
+		DocumentIDs []int  `json:"document_ids"`
+		TopK        int    `json:"top_k"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.Query == "" {
+		http.Error(w, "Invalid request body: query is required", http.StatusBadRequest)
+		return
+	}
+	if len(req.DocumentIDs) == 0 {
+		http.Error(w, "document_ids is required", http.StatusBadRequest)
+		return
+	}
+	if req.TopK <= 0 {
+		req.TopK = 5
+	}
+
+	context, err := h.graphRAGService.HybridRetrievalQuery(req.Query, req.DocumentIDs, req.TopK)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("GraphRAG query failed: %v", err), http.StatusInternalServerError)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
+	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status":  "success",
-		"message": "GraphRAG query endpoint - to be implemented",
+		"query":   req.Query,
+		"context": context,
 	})
 }
 
