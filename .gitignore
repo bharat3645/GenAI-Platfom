@@ -1,0 +1,32 @@
+# Environment files (never commit real secrets — see .env.example)
+.env
+.env.local
+*.env
+!*.env.example
+
+# Node
+node_modules/
+genai-frontend/dist/
+npm-debug.log*
+
+# Go
+genai-platform/bin/
+genai-platform/*.exe
+genai-platform/uploads/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
