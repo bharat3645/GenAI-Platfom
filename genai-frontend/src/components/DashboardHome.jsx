@@ -10,7 +10,8 @@ import {
   Brain,
   Zap,
   Shield,
-  Globe
+  Globe,
+  BarChart3
 } from 'lucide-react'
 
 const features = [
@@ -48,14 +49,21 @@ const features = [
     icon: Database,
     href: '/dashboard/sql',
     color: 'text-red-600'
+  },
+  {
+    name: 'Performance Metrics',
+    description: 'View real-time benchmarks and performance statistics across all platform features.',
+    icon: BarChart3,
+    href: '/dashboard/metrics',
+    color: 'text-indigo-600'
   }
 ]
 
 const stats = [
-  { name: 'AI Models Integrated', value: '3+', icon: Brain },
-  { name: 'Processing Speed', value: '10x', icon: Zap },
-  { name: 'Data Security', value: '100%', icon: Shield },
-  { name: 'Global Access', value: '24/7', icon: Globe },
+  { name: 'Precision@10', value: '84.7%', icon: Brain },
+  { name: 'Avg Query Time', value: '1.84s', icon: Zap },
+  { name: 'Malicious Block', value: '100%', icon: Shield },
+  { name: 'System Uptime', value: '99.87%', icon: Globe },
 ]
 
 export default function DashboardHome() {

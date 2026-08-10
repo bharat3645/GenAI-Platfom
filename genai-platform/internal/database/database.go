@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -96,6 +97,28 @@ func runMigrations(db *sql.DB) error {
 		}
 	}
 
+	// Run enhanced schema migration from file
+	if err := runMigrationFromFile(db, "./migrations/002_enhanced_schema.sql"); err != nil {
+		fmt.Printf("Warning: Enhanced schema migration may have failed: %v\n", err)
+		// Don't fail startup if enhanced tables already exist
+	}
+
 	return nil
 }
 
+func runMigrationFromFile(db *sql.DB, filepath string) error {
+	content, err := os.ReadFile(filepath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil // File doesn't exist in this deployment, skip
+		}
+		return err
+	}
+
+	// Execute the migration file content
+	if _, err := db.Exec(string(content)); err != nil {
+		return fmt.Errorf("failed to execute migration file %s: %w", filepath, err)
+	}
+
+	return nil
+}

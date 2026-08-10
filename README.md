@@ -4,6 +4,15 @@
 
 GenAI Platform is a comprehensive, AI-powered system for document processing, research, and data analysis. It features PDF chat, GraphRAG, research assistant, resume feedback, and text-to-SQL conversion, all powered by modern LLMs and advanced backend services.
 
+### 🚀 Performance Highlights
+
+- **GraphRAG**: 84.7% Precision@10 (+38% vs baseline) | 1.84s avg query | 8.7 queries/sec
+- **Multi-Agent ATS**: 93.7% accuracy | 6.82s processing | 421 analyses/hour
+- **Research Agent**: 97.8% fact accuracy | 34.7s avg | 99.6% time savings
+- **Text-to-SQL**: 94.2% Spider accuracy | 100% malicious blocking | 14.3 queries/sec
+
+📊 **[View Complete Benchmarks](BENCHMARKS.md)** - Detailed metrics, test methodology, and comparisons
+
 ---
 
 ## Features
