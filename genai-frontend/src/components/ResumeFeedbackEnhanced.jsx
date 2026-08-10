@@ -44,7 +44,7 @@ export default function ResumeFeedbackEnhanced() {
       formData.append('job_description', jobDescription)
 
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:8080/api/resume/upload', {
+      const response = await fetch('http://localhost:8080/api/v1/resume/upload', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -86,7 +86,7 @@ export default function ResumeFeedbackEnhanced() {
   const fetchFeedback = async (id) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:8080/api/resume/feedback/${id}`, {
+      const response = await fetch(`http://localhost:8080/api/v1/resume/feedback/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -190,7 +190,7 @@ export default function ResumeFeedbackEnhanced() {
               Agent Execution Progress
             </CardTitle>
             <CardDescription>
-              Real-time multi-agent analysis status
+              Real-time multi-agent analysis status{analysisId ? ` — Analysis #${analysisId}` : ''}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

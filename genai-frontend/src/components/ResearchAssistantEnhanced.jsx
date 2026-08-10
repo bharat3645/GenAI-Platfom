@@ -36,7 +36,7 @@ export default function ResearchAssistantEnhanced() {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:8080/api/research', {
+      const response = await fetch('http://localhost:8080/api/v1/agent/research', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -80,7 +80,7 @@ export default function ResearchAssistantEnhanced() {
   const fetchReport = async (id) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:8080/api/research/result/${id}`, {
+      const response = await fetch(`http://localhost:8080/api/v1/agent/research/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -166,7 +166,7 @@ export default function ResearchAssistantEnhanced() {
               7-Agent Research Workflow
             </CardTitle>
             <CardDescription>
-              Real-time autonomous research progress
+              Real-time autonomous research progress{taskId ? ` — Task #${taskId}` : ''}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

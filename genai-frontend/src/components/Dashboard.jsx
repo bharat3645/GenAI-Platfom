@@ -15,10 +15,10 @@ import {
   BarChart3
 } from 'lucide-react'
 import PDFChat from '@/components/PDFChat'
-import GraphRAG from '@/components/GraphRAG'
-import ResearchAssistant from '@/components/ResearchAssistant'
-import ResumeFeedback from '@/components/ResumeFeedback'
-import TextToSQL from '@/components/TextToSQL'
+import GraphRAGEnhanced from '@/components/GraphRAGEnhanced'
+import ResearchAssistantEnhanced from '@/components/ResearchAssistantEnhanced'
+import ResumeFeedbackEnhanced from '@/components/ResumeFeedbackEnhanced'
+import TextToSQLEnhanced from '@/components/TextToSQLEnhanced'
 import DashboardHome from '@/components/DashboardHome'
 import PerformanceMetrics from '@/components/PerformanceMetrics'
 
@@ -111,10 +111,10 @@ export default function Dashboard() {
             <Routes>
               <Route path="/" element={<DashboardHome />} />
               <Route path="/pdf-chat" element={<PDFChat />} />
-              <Route path="/graph-rag" element={<GraphRAG />} />
-              <Route path="/research" element={<ResearchAssistant />} />
-              <Route path="/resume" element={<ResumeFeedback />} />
-              <Route path="/sql" element={<TextToSQL />} />
+              <Route path="/graph-rag" element={<GraphRAGEnhanced />} />
+              <Route path="/research" element={<ResearchAssistantEnhanced />} />
+              <Route path="/resume" element={<ResumeFeedbackEnhanced />} />
+              <Route path="/sql" element={<TextToSQLEnhanced />} />
               <Route path="/metrics" element={<PerformanceMetrics />} />
             </Routes>
           </div>

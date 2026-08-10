@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -30,7 +30,7 @@ export default function GraphRAGEnhanced() {
       formData.append('file', file)
 
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:8080/api/upload', {
+      const response = await fetch('http://localhost:8080/api/v1/pdf/upload', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -76,7 +76,7 @@ export default function GraphRAGEnhanced() {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:8080/api/chat', {
+      const response = await fetch('http://localhost:8080/api/v1/chat/query', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
