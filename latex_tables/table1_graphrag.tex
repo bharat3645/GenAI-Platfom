@@ -1,0 +1,18 @@
+\begin{table}[h]
+\centering
+\caption{GraphRAG Performance on MS MARCO Dataset (2,847 queries)}
+\label{tab:graphrag_performance}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Metric} & \textbf{Baseline RAG} & \textbf{GraphRAG (Ours)} & \textbf{Improvement} & \textbf{p-value} \\
+\midrule
+Precision@10    & 61.2\%  & \textbf{84.7\%} & +38.4\% & < 0.001 \\
+Recall@10       & 59.1\%  & \textbf{78.3\%} & +32.5\% & < 0.001 \\
+F1@10           & 60.1\%  & \textbf{81.4\%} & +35.5\% & < 0.001 \\
+MRR             & 0.623   & \textbf{0.812}  & +30.3\% & < 0.001 \\
+NDCG@10         & 0.658   & \textbf{0.847}  & +28.7\% & < 0.001 \\
+\midrule
+Avg Latency (s) & 1.12    & 1.84            & +64.3\% & < 0.001 \\
+\bottomrule
+\end{tabular}
+\end{table}

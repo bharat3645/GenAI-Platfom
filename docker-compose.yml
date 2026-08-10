@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: genai-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: genai_platform
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./genai-platform/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - genai-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend Service
+  backend:
+    build:
+      context: ./genai-platform
+      dockerfile: Dockerfile
+    container_name: genai-backend
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@database:5432/genai_platform?sslmode=disable
+      PORT: 8080
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      MONGO_URI: mongodb://mongodb:27017/genai_platform
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      UPLOAD_DIR: /app/uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./genai-platform/uploads:/app/uploads
+    networks:
+      - genai-network
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./genai-frontend
+      dockerfile: Dockerfile
+    container_name: genai-frontend
+    ports:
+      - "5173:80"
+    networks:
+      - genai-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # MongoDB Service (optional)
+  mongodb:
+    image: mongo:6.0
+    container_name: genai-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - genai-network
+    restart: unless-stopped
+
+networks:
+  genai-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongo_data:

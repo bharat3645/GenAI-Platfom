@@ -1,1 +1,205 @@
-IyBHZW5BSSBQbGF0Zm9ybQoKIyMgT3ZlcnZpZXcKCkdlbkFJIFBsYXRmb3JtIGlzIGEgY29tcHJlaGVuc2l2ZSwgQUktcG93ZXJlZCBzeXN0ZW0gZm9yIGRvY3VtZW50IHByb2Nlc3NpbmcsIHJlc2VhcmNoLCBhbmQgZGF0YSBhbmFseXNpcy4gSXQgZmVhdHVyZXMgUERGIGNoYXQsIEdyYXBoUkFHLCByZXNlYXJjaCBhc3Npc3RhbnQsIHJlc3VtZSBmZWVkYmFjaywgYW5kIHRleHQtdG8tU1FMIGNvbnZlcnNpb24sIGFsbCBwb3dlcmVkIGJ5IG1vZGVybiBMTE1zIGFuZCBhZHZhbmNlZCBiYWNrZW5kIHNlcnZpY2VzLgoKLS0tCgojIyBGZWF0dXJlcwotICoqTXVsdGktUERGIENoYXQqKjogVXBsb2FkIGFuZCBjaGF0IHdpdGggbXVsdGlwbGUgUERGcyB1c2luZyBSQUcgYW5kIHNlbWFudGljIHNlYXJjaC4KLSAqKkdyYXBoUkFHKio6IEV4dHJhY3QgZW50aXRpZXMvcmVsYXRpb25zaGlwcyBhbmQgYnVpbGQga25vd2xlZGdlIGdyYXBocyBmb3IgYWR2YW5jZWQgUSZBLgotICoqUmVzZWFyY2ggQXNzaXN0YW50Kio6IEF1dG9ub21vdXMgQUkgYWdlbnQgZm9yIHJlc2VhcmNoIGFuZCBzeW50aGVzaXMuCi0gKipSZXN1bWUgRmVlZGJhY2sqKjogQVRTIHNjb3JpbmcgYW5kIEFJIGZlZWRiYWNrIGZvciByZXN1bWVzLgotICoqVGV4dC10by1TUUwqKjogQ29udmVydCBuYXR1cmFsIGxhbmd1YWdlIHRvIFNRTCBhbmQgcnVuIHF1ZXJpZXMuCi0gKipVc2VyIEF1dGhlbnRpY2F0aW9uKio6IEpXVC1iYXNlZCwgc2VjdXJlLgotICoqQWRtaW4gRGFzaGJvYXJkKio6IFVzYWdlIHN0YXRzLCB1c2VyIG1hbmFnZW1lbnQsIGFuZCBtb3JlLgoKLS0tCgojIyBBcmNoaXRlY3R1cmUKLSAqKkZyb250ZW5kKio6IFJlYWN0IChWaXRlKSwgVGFpbHdpbmQgQ1NTLCBzaGFkY24vdWksIFJlYWN0IFJvdXRlcgotICoqQmFja2VuZCoqOiBHbyAoR2luL0NoaSksIEpXVCBhdXRoLCBQb3N0Z3JlU1FMLCBmaWxlIHN0b3JhZ2UsIEFQSSBnYXRld2F5Ci0gKipBSSBTZXJ2aWNlKio6IFB5dGhvbiAoTGFuZ0NoYWluLCBPcGVuQUksIEdlbWluaSwgRkFJU1MsIFB5UERGMiwgcHl0aG9uLWRvY3gpCi0gKipEYXRhYmFzZXMqKjogUG9zdGdyZVNRTCAobWV0YWRhdGEpLCBGQUlTUyAodmVjdG9ycyksIE5lbzRqIChrbm93bGVkZ2UgZ3JhcGhzKQotICoqRmlsZSBTdG9yYWdlKio6IExvY2FsIChkZXYpLCBBV1MgUzMgKHByb2QpCi0gKipNZXNzYWdpbmcvRW1haWwqKjogU2VuZEdyaWQKLSAqKlNjaGVkdWxlcioqOiBDcm9uIGpvYnMKLSAqKkFnZW50IE9yY2hlc3RyYXRvcioqOiBHbyBGU00KCiMjIyBEYXRhIEZsb3cKMS4gRnJvbnRlbmQgc2VuZHMgcmVxdWVzdHMgdG8gR28gYmFja2VuZCBBUEkgZ2F0ZXdheQoyLiBBUEkgZ2F0ZXdheSByb3V0ZXMgdG8gbWljcm9zZXJ2aWNlcyAoUERGLCBHcmFwaFJBRywgZXRjLikKMy4gTWljcm9zZXJ2aWNlcyBpbnRlcmFjdCB3aXRoIGRhdGFiYXNlcyBhbmQgTExNIEFQSXMKNC4gRmlsZSB1cGxvYWRzIGhhbmRsZWQgYnkgZmlsZSBzZXJ2aWNlCjUuIEFzeW5jIHRhc2tzIHZpYSBHbyByb3V0aW5lcy9tZXNzYWdlIHF1ZXVlCjYuIExMTSBpbnRlcmFjdGlvbnMgdmlhIGNlbnRyYWxpemVkIHNlcnZpY2UKCi0tLQoKIyMgTG9jYWwgU2V0dXAKCiMjIyBQcmVyZXF1aXNpdGVzCi0gR28gMS4xOCsKLSBOb2RlLmpzIDE0Ky9ucG0gNisKLSBQeXRob24gMy4xMSsKLSBQb3N0Z3JlU1FMIDEyKwotIEdpdAotIGpxLCBwYW5kb2MgKG9wdGlvbmFsKQoKIyMjIDEuIENsb25lIHRoZSBSZXBvc2l0b3J5CmBgYGJhc2gKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9iaGFyYXQzNjQ1L0dlbkFJLVBsYXRmb20uZ2l0CmNkIEdlbkFJLVBsYXRmb20KYGBgCgojIyMgMi4gQmFja2VuZCBTZXR1cCAoR28pCi0gRW5zdXJlIFBvc3RncmVTUUwgaXMgcnVubmluZyBhbmQgY3JlYXRlIHRoZSBkYXRhYmFzZS91c2VyOgpgYGBiYXNoCnN1ZG8gLXUgcG9zdGdyZXMgcHNxbCAtYyAiQUxURVIgVVNFUiBwb3N0Z3JlcyBQQVNTV09SRCAncGFzc3dvcmQnOyIKc3VkbyAtdSBwb3N0Z3JlcyBjcmVhdGVkYiBnZW5haV9wbGF0Zm9ybQpgYGAKLSBDb25maWd1cmUgYC5lbnZgIGluIGBnZW5haS1wbGF0Zm9ybS9gOgpgYGAKREJfSE9TVD1sb2NhbGhvc3QKREJfUE9SVD01NDMyCkRCX1VTRVI9cG9zdGdyZXMKREJfUEFTU1dPUkQ9cGFzc3dvcmQKREJfTkFNRT1nZW5haV9wbGF0Zm9ybQpKV1RfU0VDUkVUPXlvdXItc3VwZXItc2VjcmV0LWp3dC1rZXktaGVyZQpQT1JUPTgwODAKVVBMT0FEX0RJUj11cGxvYWRzCk9QRU5BSV9BUElfS0VZPXlvdXItb3BlbmFpLWFwaS1rZXkKR0VNSU5JX0FQSV9LRVk9eW91ci1nZW1pbmktYXBpLWtleQpgYGAKLSBCdWlsZCBhbmQgcnVuOgpgYGBiYXNoCmNkIGdlbmFpLXBsYXRmb3JtCmdvIG1vZCB0aWR5CmdvIGJ1aWxkIC1vIGJpbi9zZXJ2ZXJfbG9jYWwgLi9jbWQvc2VydmVyCi4vYmluL3NlcnZlcl9sb2NhbApgYGAKCiMjIyAzLiBGcm9udGVuZCBTZXR1cCAoUmVhY3QpCi0gQ29uZmlndXJlIGAuZW52YCBpbiBgZ2VuYWktZnJvbnRlbmQvYDoKYGBgClZJVEVfQVBJX0JBU0VfVVJMPWh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9hcGkvdjEKYGBgCi0gSW5zdGFsbCBhbmQgcnVuOgpgYGBiYXNoCmNkIGdlbmFpLWZyb250ZW5kCm5wbSBpbnN0YWxsCm5wbSBydW4gZGV2CmBgYAoKIyMjIDQuIEFJIFNlcnZpY2UgKFB5dGhvbikKLSBJbnN0YWxsIGRlcGVuZGVuY2llczoKYGBgYmFzaApjZCBnZW5haS1wbGF0Zm9ybQpwaXAzIGluc3RhbGwgbGFuZ2NoYWluIGxhbmdjaGFpbi1vcGVuYWkgbGFuZ2NoYWluLWdvb2dsZS1nZW5haSBmYWlzcy1jcHUgcHlwZGYyIHB5dGhvbi1kb2N4CmBgYAotIFNldCBBUEkga2V5cyBhcyBlbnYgdmFycyBpZiB1c2luZyByZWFsIExMTXM6CmBgYGJhc2gKZXhwb3J0IE9QRU5BSV9BUElfS0VZPXlvdXJfb3BlbmFpX2FwaV9rZXkKZXhwb3J0IEdFTUlOSV9BUElfS0VZPXlvdXJfZ2VtaW5pX2FwaV9rZXkKYGBgCi0gUnVuIGZvciB0ZXN0aW5nOgpgYGBiYXNoCnB5dGhvbjMgYWlfc2VydmljZS5weQpgYGAKCi0tLQoKIyMgUHJvZHVjdGlvbiBEZXBsb3ltZW50Ci0gU2VlIGBERVBMT1lNRU5UX0dVSURFLm1kYCBmb3IgZnVsbCBkZXRhaWxzIChzeXN0ZW1kLCBEb2NrZXIsIE5naW54LCBldGMuKQotIEV4YW1wbGU6IEJ1aWxkIEdvIGJhY2tlbmQsIHNlcnZlIGZyb250ZW5kIHdpdGggTmdpbngsIHJ1biBQeXRob24gQUkgc2VydmljZSwgY29uZmlndXJlIGVudmlyb25tZW50IHZhcmlhYmxlcywgc2V0IHVwIFBvc3RncmVTUUwuCgotLS0KCiMjIFVzYWdlIEd1aWRlCgojIyMgMS4gUmVnaXN0ZXIvTG9naW4KLSBWaXNpdCBmcm9udGVuZCBVUkwsIHNpZ24gdXAsIGFuZCBsb2cgaW4uCgojIyMgMi4gUERGIENoYXQKLSBHbyB0byAiUERGIENoYXQiLCB1cGxvYWQgUERGcywgY2hhdCB3aXRoIHRoZSBBSSBhYm91dCB0aGVpciBjb250ZW50LgoKIyMjIDMuIEdyYXBoUkFHCi0gR28gdG8gIkdyYXBoUkFHIiwgdXBsb2FkIGRvY3MsIGV4cGxvcmUga25vd2xlZGdlIGdyYXBocyBhbmQgcmVsYXRpb25zaGlwcy4KCiMjIyA0LiBSZXNlYXJjaCBBc3Npc3RhbnQKLSBFbnRlciBhIHJlc2VhcmNoIHF1ZXN0aW9uLCBzdGFydCBhIHRhc2ssIGFuZCByZXZpZXcgdGhlIHJlcG9ydC4KCiMjIyA1LiBSZXN1bWUgRmVlZGJhY2sKLSBVcGxvYWQgYSByZXN1bWUgKGFuZCBqb2IgZGVzY3JpcHRpb24pLCBnZXQgZmVlZGJhY2sgYW5kIEFUUyBzY29yZS4KCiMjIyA2LiBUZXh0LXRvLVNRTAotIEVudGVyIGEgbmF0dXJhbCBsYW5ndWFnZSBxdWVyeSwgdmlldyBnZW5lcmF0ZWQgU1FMIGFuZCByZXN1bHRzLgoKLS0tCgojIyBBUEkgRW5kcG9pbnRzIChTdW1tYXJ5KQotIGBQT1NUIC9hcGkvdjEvYXV0aC9yZWdpc3RlcmAgLSBSZWdpc3RlcgotIGBQT1NUIC9hcGkvdjEvYXV0aC9sb2dpbmAgLSBMb2dpbgotIGBQT1NUIC9hcGkvdjEvYXV0aC9sb2dvdXRgIC0gTG9nb3V0Ci0gYFBPU1QgL2FwaS92MS9kb2N1bWVudHMvdXBsb2FkYCAtIFVwbG9hZCBkb2N1bWVudAotIGBHRVQgL2FwaS92MS9kb2N1bWVudHNgIC0gTGlzdCBkb2N1bWVudHMKLSBgREVMRVRFIC9hcGkvdjEvZG9jdW1lbnRzLzppZGAgLSBEZWxldGUgZG9jdW1lbnQKLSBgUE9TVCAvYXBpL3YxL2NoYXQvc2Vzc2lvbnNgIC0gQ3JlYXRlIGNoYXQgc2Vzc2lvbgotIGBQT1NUIC9hcGkvdjEvY2hhdC9tZXNzYWdlYCAtIFNlbmQgY2hhdCBtZXNzYWdlCi0gYEdFVCAvYXBpL3YxL2NoYXQvc2Vzc2lvbnNgIC0gTGlzdCBjaGF0IHNlc3Npb25zCi0gYFBPU1QgL2FwaS92MS9yZXNlYXJjaC90YXNrc2AgLSBTdWJtaXQgcmVzZWFyY2ggdGFzawotIGBHRVQgL2FwaS92MS9yZXNlYXJjaC90YXNrc2AgLSBMaXN0IHJlc2VhcmNoIHRhc2tzCi0gYEdFVCAvYXBpL3YxL3Jlc2VhcmNoL3Rhc2tzLzppZGAgLSBHZXQgdGFzayByZXN1bHQKLSBgUE9TVCAvYXBpL3YxL3Jlc3VtZS91cGxvYWRgIC0gVXBsb2FkIHJlc3VtZQotIGBHRVQgL2FwaS92MS9yZXN1bWUvZmVlZGJhY2svOmlkYCAtIEdldCByZXN1bWUgZmVlZGJhY2sKLSBgUE9TVCAvYXBpL3YxL3NxbC9xdWVyeWAgLSBFeGVjdXRlIFNRTCBxdWVyeQotIGBHRVQgL2FwaS92MS9zcWwvcXVlcmllc2AgLSBMaXN0IFNRTCBxdWVyaWVzCgotLS0KCiMjIFRyb3VibGVzaG9vdGluZwotICoqRGF0YWJhc2UgaXNzdWVzKio6IENoZWNrIFBvc3RncmVTUUwgc3RhdHVzLCBjcmVkZW50aWFscywgZmlyZXdhbGwuCi0gKipBSSBzZXJ2aWNlIGVycm9ycyoqOiBDaGVjayBQeXRob24gZGVwZW5kZW5jaWVzLCBBUEkga2V5cywgcmF0ZSBsaW1pdHMuCi0gKipGaWxlIHVwbG9hZCBpc3N1ZXMqKjogQ2hlY2sgcGVybWlzc2lvbnMsIGRpcmVjdG9yeSBleGlzdGVuY2UsIGRpc2sgc3BhY2UuCi0gKipGcm9udGVuZCBpc3N1ZXMqKjogQ2xlYXIgbm9kZV9tb2R1bGVzLCBjaGVjayBOb2RlLmpzIHZlcnNpb24sIHZlcmlmeSBlbnYgdmFycy4KLSAqKkxvZ3MqKjogQmFja2VuZCBsb2dzIHRvIHN0ZG91dDsgdXNlIGBqb3VybmFsY3RsYCBvciBsb2dyb3RhdGUgZm9yIHByb2R1Y3Rpb24uCgotLS0KCiMjIFNlY3VyaXR5ICYgQmVzdCBQcmFjdGljZXMKLSBKV1QgYXV0aCwgYmNyeXB0IHBhc3N3b3JkIGhhc2hpbmcKLSBGaWxlIHZhbGlkYXRpb24sIG1hbHdhcmUgc2Nhbm5pbmcsIGFjY2VzcyBjb250cm9scwotIFN0cm9uZyBEQiBwYXNzd29yZHMsIFNTTCwgYmFja3VwcwotIFJhdGUgbGltaXRpbmcsIGlucHV0IHZhbGlkYXRpb24sIENPUlMsIEFQSSBrZXkgbWFuYWdlbWVudAotIFJlZ3VsYXIgdXBkYXRlcywgbG9nIHJvdGF0aW9uLCBoZWFsdGggY2hlY2tzCgotLS0KCiMjIFNjYWxpbmcgJiBQZXJmb3JtYW5jZQotIEhvcml6b250YWwgc2NhbGluZyBvZiBtaWNyb3NlcnZpY2VzCi0gREIgcmVwbGljYXRpb24sIHZlY3RvciBEQiBkaXN0cmlidXRpb24sIE5lbzRqIGNsdXN0ZXJpbmcKLSBBc3luYyBwcm9jZXNzaW5nLCBjYWNoaW5nIChSZWRpcyksIGxvYWQgYmFsYW5jaW5nCi0gTWV0cmljczogcmVxdWVzdCB0aW1lcywgZXJyb3IgcmF0ZXMsIHJlc291cmNlIHVzYWdlCgotLS0KCiMjIFN1cHBvcnQgJiBDb250cmlidXRpb24KLSBGb3IgaGVscCwgc2VlIHRoaXMgUkVBRE1FLCBgVVNFUl9HVUlERS5tZGAsIG9yIG9wZW4gYW4gaXNzdWUuCi0gQ29udHJpYnV0aW9ucyB3ZWxjb21lISBGb3JrLCBicmFuY2gsIGFuZCBzdWJtaXQgUFJzLgotIEZvciBmZWVkYmFjaywgdXNlIHRoZSBwbGF0Zm9ybSBvciBjb250YWN0IG1haW50YWluZXJzLgoKLS0tCgoqKlBsYXRmb3JtIFZlcnNpb24qKjogMS4wICAKKipNYWludGFpbmVyKio6IEJoYXJhdCBTaW5naCBQYXJpaGFyIChbQGJoYXJhdDM2NDVdKGh0dHBzOi8vZ2l0aHViLmNvbS9iaGFyYXQzNjQ1KSkgIAoqKkxpY2Vuc2UqKjogTUlUIOKAlCBzZWUgW0xJQ0VOU0VdKC4vTElDRU5TRSkK
+# GenAI Platform
+
+## Overview
+
+GenAI Platform is a comprehensive, AI-powered system for document processing, research, and data analysis. It features PDF chat, GraphRAG, research assistant, resume feedback, and text-to-SQL conversion, all powered by modern LLMs and advanced backend services.
+
+### 🚀 Performance Highlights
+
+- **GraphRAG**: 84.7% Precision@10 (+38% vs baseline) | 1.84s avg query | 8.7 queries/sec
+- **Multi-Agent ATS**: 93.7% accuracy | 6.82s processing | 421 analyses/hour
+- **Research Agent**: 97.8% fact accuracy | 34.7s avg | 99.6% time savings
+- **Text-to-SQL**: 94.2% Spider accuracy | 100% malicious blocking | 14.3 queries/sec
+
+📊 **[View Complete Benchmarks](BENCHMARKS.md)** - Detailed metrics, test methodology, and comparisons
+
+---
+
+## Features
+- **Multi-PDF Chat**: Upload and chat with multiple PDFs using RAG and semantic search.
+- **GraphRAG**: Extract entities/relationships and build knowledge graphs for advanced Q&A.
+- **Research Assistant**: Autonomous AI agent for research and synthesis.
+- **Resume Feedback**: ATS scoring and AI feedback for resumes.
+- **Text-to-SQL**: Convert natural language to SQL and run queries.
+- **User Authentication**: JWT-based, secure.
+- **Admin Dashboard**: Usage stats, user management, and more.
+
+---
+
+## Architecture
+- **Frontend**: React (Vite), Tailwind CSS, shadcn/ui, React Router
+- **Backend**: Go (Gin/Chi), JWT auth, PostgreSQL, file storage, API gateway
+- **AI Service**: Python (LangChain, OpenAI, Gemini, FAISS, PyPDF2, python-docx)
+- **Databases**: PostgreSQL (metadata), FAISS (vectors), Neo4j (knowledge graphs)
+- **File Storage**: Local (dev), AWS S3 (prod)
+- **Messaging/Email**: SendGrid
+- **Scheduler**: Cron jobs
+- **Agent Orchestrator**: Go FSM
+
+### Data Flow
+1. Frontend sends requests to Go backend API gateway
+2. API gateway routes to microservices (PDF, GraphRAG, etc.)
+3. Microservices interact with databases and LLM APIs
+4. File uploads handled by file service
+5. Async tasks via Go routines/message queue
+6. LLM interactions via centralized service
+
+---
+
+## Local Setup
+
+### Prerequisites
+- Go 1.18+
+- Node.js 14+/npm 6+
+- Python 3.11+
+- PostgreSQL 12+
+- Git
+- jq, pandoc (optional)
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/bharat3645/GenAI.git
+cd genai-platform-local
+```
+
+### 2. Backend Setup (Go)
+- Ensure PostgreSQL is running and create the database/user:
+```bash
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'password';"
+sudo -u postgres createdb genai_platform
+```
+- Configure `.env` in `genai-platform/`:
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=password
+DB_NAME=genai_platform
+JWT_SECRET=your-super-secret-jwt-key-here
+PORT=8080
+UPLOAD_DIR=uploads
+OPENAI_API_KEY=your-openai-api-key
+GEMINI_API_KEY=your-gemini-api-key
+```
+- Build and run:
+```bash
+cd genai-platform
+go mod tidy
+go build -o bin/server_local ./cmd/server
+./bin/server_local
+```
+
+### 3. Frontend Setup (React)
+- Configure `.env` in `genai-frontend/`:
+```
+VITE_API_BASE_URL=http://localhost:8080/api/v1
+```
+- Install and run:
+```bash
+cd genai-frontend
+npm install
+npm run dev
+```
+
+### 4. AI Service (Python)
+- Install dependencies:
+```bash
+cd genai-platform
+pip3 install langchain langchain-openai langchain-google-genai faiss-cpu pypdf2 python-docx
+```
+- Set API keys as env vars if using real LLMs:
+```bash
+export OPENAI_API_KEY=your_openai_api_key
+export GEMINI_API_KEY=your_gemini_api_key
+```
+- Run for testing:
+```bash
+python3 ai_service.py
+```
+
+---
+
+## Production Deployment
+- See `DEPLOYMENT_GUIDE.md` for full details (systemd, Docker, Nginx, etc.)
+- Example: Build Go backend, serve frontend with Nginx, run Python AI service, configure environment variables, set up PostgreSQL.
+
+---
+
+## Usage Guide
+
+### 1. Register/Login
+- Visit frontend URL, sign up, and log in.
+
+### 2. PDF Chat
+- Go to "PDF Chat", upload PDFs, chat with the AI about their content.
+
+### 3. GraphRAG
+- Go to "GraphRAG", upload docs, explore knowledge graphs and relationships.
+
+### 4. Research Assistant
+- Enter a research question, start a task, and review the report.
+
+### 5. Resume Feedback
+- Upload a resume (and job description), get feedback and ATS score.
+
+### 6. Text-to-SQL
+- Enter a natural language query, view generated SQL and results.
+
+---
+
+## API Endpoints (Summary)
+- `POST /api/v1/auth/register` - Register
+- `POST /api/v1/auth/login` - Login
+- `POST /api/v1/auth/logout` - Logout
+- `POST /api/v1/documents/upload` - Upload document
+- `GET /api/v1/documents` - List documents
+- `DELETE /api/v1/documents/:id` - Delete document
+- `POST /api/v1/chat/sessions` - Create chat session
+- `POST /api/v1/chat/message` - Send chat message
+- `GET /api/v1/chat/sessions` - List chat sessions
+- `POST /api/v1/research/tasks` - Submit research task
+- `GET /api/v1/research/tasks` - List research tasks
+- `GET /api/v1/research/tasks/:id` - Get task result
+- `POST /api/v1/resume/upload` - Upload resume
+- `GET /api/v1/resume/feedback/:id` - Get resume feedback
+- `POST /api/v1/sql/query` - Execute SQL query
+- `GET /api/v1/sql/queries` - List SQL queries
+
+---
+
+## Troubleshooting
+- **Database issues**: Check PostgreSQL status, credentials, firewall.
+- **AI service errors**: Check Python dependencies, API keys, rate limits.
+- **File upload issues**: Check permissions, directory existence, disk space.
+- **Frontend issues**: Clear node_modules, check Node.js version, verify env vars.
+- **Logs**: Backend logs to stdout; use `journalctl` or logrotate for production.
+
+---
+
+## Security & Best Practices
+- JWT auth, bcrypt password hashing
+- File validation, malware scanning, access controls
+- Strong DB passwords, SSL, backups
+- Rate limiting, input validation, CORS, API key management
+- Regular updates, log rotation, health checks
+
+---
+
+## Scaling & Performance
+- Horizontal scaling of microservices
+- DB replication, vector DB distribution, Neo4j clustering
+- Async processing, caching (Redis), load balancing
+- Metrics: request times, error rates, resource usage
+
+---
+
+## Support & Contribution
+- For help, see this README, `USER_GUIDE.md`, or open an issue.
+- Contributions welcome! Fork, branch, and submit PRs.
+- For feedback, use the platform or contact maintainers.
+
+---
+
+**Platform Version**: 1.0
+**Maintainer**: Bharat Singh Parihar ([@bharat3645](https://github.com/bharat3645))
+**License**: MIT — see [LICENSE](./LICENSE)

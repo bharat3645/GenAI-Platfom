@@ -1,20 +1,31 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
+	"time"
+
+	"genai-platform/internal/auth"
+	"genai-platform/internal/database"
+	"genai-platform/internal/handlers"
+	mongoclient "genai-platform/internal/mongo"
+	"genai-platform/pkg/config"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
-	"genai-platform/internal/auth"
-	"genai-platform/internal/database"
-	"genai-platform/internal/handlers"
-	"genai-platform/pkg/config"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("No .env file found, using environment variables")
+	}
+
 	// Load configuration
 	cfg := config.Load()
 
@@ -24,6 +35,29 @@ func main() {
 		log.Fatal("Failed to initialize database:", err)
 	}
 	defer db.Close()
+
+	// Optionally connect to MongoDB if MONGO_URI is provided. This is useful for
+	// using MongoDB for vector stores or other services while keeping Postgres
+	// as primary relational DB. Full migration to Mongo requires refactoring
+	// data access to use Mongo collections.
+	mongoURI := os.Getenv("MONGO_URI")
+	if mongoURI != "" {
+		log.Println("Attempting to connect to MongoDB...")
+		mc, err := mongoclient.Initialize(mongoURI)
+		if err != nil {
+			log.Println("Warning: failed to connect to MongoDB:", err)
+		} else {
+			// keep the client alive for the lifetime of the server
+			defer func() {
+				ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+				defer cancel()
+				if err := mc.Disconnect(ctx); err != nil {
+					log.Println("Warning: failed to disconnect MongoDB client:", err)
+				}
+			}()
+			log.Println("Connected to MongoDB")
+		}
+	}
 
 	// Initialize router
 	r := chi.NewRouter()
@@ -48,6 +82,11 @@ func main() {
 
 	// Routes
 	r.Route("/api/v1", func(r chi.Router) {
+		// Health endpoint for quick checks
+		r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte("ok"))
+		})
 		// Public routes
 		r.Post("/auth/login", h.Login)
 		r.Post("/auth/register", h.Register)
@@ -88,4 +127,3 @@ func main() {
 	log.Printf("Server starting on port %s", port)
 	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, r))
 }
-

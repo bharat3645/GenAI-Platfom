@@ -11,7 +11,8 @@ import {
   Database,
   LogOut,
   Menu,
-  X
+  X,
+  BarChart3
 } from 'lucide-react'
 import PDFChat from '@/components/PDFChat'
 import GraphRAG from '@/components/GraphRAG'
@@ -19,6 +20,7 @@ import ResearchAssistant from '@/components/ResearchAssistant'
 import ResumeFeedback from '@/components/ResumeFeedback'
 import TextToSQL from '@/components/TextToSQL'
 import DashboardHome from '@/components/DashboardHome'
+import PerformanceMetrics from '@/components/PerformanceMetrics'
 
 const navigation = [
   { name: 'Overview', href: '/dashboard', icon: Brain },
@@ -27,6 +29,7 @@ const navigation = [
   { name: 'Research Assistant', href: '/dashboard/research', icon: FileText },
   { name: 'Resume Feedback', href: '/dashboard/resume', icon: FileUser },
   { name: 'Text to SQL', href: '/dashboard/sql', icon: Database },
+  { name: 'Performance Metrics', href: '/dashboard/metrics', icon: BarChart3 },
 ]
 
 export default function Dashboard() {
@@ -112,6 +115,7 @@ export default function Dashboard() {
               <Route path="/research" element={<ResearchAssistant />} />
               <Route path="/resume" element={<ResumeFeedback />} />
               <Route path="/sql" element={<TextToSQL />} />
+              <Route path="/metrics" element={<PerformanceMetrics />} />
             </Routes>
           </div>
         </main>

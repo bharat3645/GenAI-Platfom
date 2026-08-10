@@ -1,0 +1,53 @@
+# GenAI Platform - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core LangChain Framework
+langchain==0.1.0
+langchain-core==0.1.10
+
+# LLM Providers
+langchain-openai==0.0.5
+langchain-google-genai==0.0.6
+openai==1.10.0
+
+# Vector Store & Embeddings
+faiss-cpu==1.7.4
+# For GPU support, use instead: faiss-gpu==1.7.4
+
+# Document Processing
+PyPDF2==3.0.1
+python-docx==1.1.0
+pypdf==3.17.4
+
+# Data Processing
+numpy==1.24.3
+pandas==2.0.3
+
+# NER & NLP (optional - for advanced entity extraction)
+spacy==3.7.2
+# After installing spacy, download model: python -m spacy download en_core_web_sm
+
+# Transformers (optional - for advanced NER)
+# transformers==4.36.2
+# torch==2.1.2
+
+# Web Scraping for Research Agent
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Academic Search APIs
+# arxiv==2.1.0
+# biopython==1.81  # For PubMed
+
+# Utilities
+python-dotenv==1.0.0
+pydantic==2.5.3
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# Development
+black==23.12.1
+flake8==7.0.0
+mypy==1.8.0

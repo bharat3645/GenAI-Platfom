@@ -11,26 +11,35 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-chi/chi/v5"
-	"golang.org/x/crypto/bcrypt"
 	"genai-platform/internal/auth"
 	"genai-platform/internal/models"
 	"genai-platform/internal/services"
+
+	"github.com/go-chi/chi/v5"
+	"golang.org/x/crypto/bcrypt"
 
 	"github.com/lib/pq" // Import the pq library for array handling
 )
 
 type Handler struct {
-	db          *sql.DB
-	llmService  *services.LLMService
-	fileService *services.FileService
+	db              *sql.DB
+	llmService      *services.LLMService
+	fileService     *services.FileService
+	graphRAGService *services.GraphRAGService
+	atsService      *services.ATSAgenticService
+	researchService *services.ResearchAgentService
+	sqlService      *services.TextToSQLService
 }
 
 func New(db *sql.DB) *Handler {
 	return &Handler{
-		db:          db,
-		llmService:  services.NewLLMService(),
-		fileService: services.NewFileService(),
+		db:              db,
+		llmService:      services.NewLLMService(),
+		fileService:     services.NewFileService(),
+		graphRAGService: services.NewGraphRAGService(db),
+		atsService:      services.NewATSAgenticService(db),
+		researchService: services.NewResearchAgentService(db),
+		sqlService:      services.NewTextToSQLService(db),
 	}
 }
 
@@ -176,14 +185,19 @@ func (h *Handler) UploadPDF(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Process PDF for embeddings (async)
-	go h.fileService.ProcessPDF(docID, filePath)
+	// Process PDF for GraphRAG (async)
+	go func() {
+		if err := h.graphRAGService.ProcessDocumentForGraphRAG(docID, filePath); err != nil {
+			fmt.Printf("GraphRAG processing failed for document %d: %v\n", docID, err)
+		}
+	}()
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"document_id": docID,
 		"filename":    header.Filename,
-		"status":      "uploaded",
+		"status":      "processing",
+		"message":     "Document uploaded. GraphRAG processing started.",
 	})
 }
 
@@ -224,11 +238,22 @@ func (h *Handler) ChatQuery(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get relevant context from documents
-	context, err := h.fileService.GetRelevantContext(req.DocumentIDs, req.Query)
-	if err != nil {
-		http.Error(w, "Failed to get context", http.StatusInternalServerError)
-		return
+	// Get relevant context from documents using GraphRAG hybrid retrieval
+	var context string
+	var err error
+	if len(req.DocumentIDs) > 0 {
+		// Use GraphRAG hybrid retrieval
+		context, err = h.graphRAGService.HybridRetrievalQuery(req.Query, req.DocumentIDs, 5)
+		if err != nil {
+			// Fallback to traditional retrieval
+			context, err = h.fileService.GetRelevantContext(req.DocumentIDs, req.Query)
+			if err != nil {
+				http.Error(w, "Failed to get context", http.StatusInternalServerError)
+				return
+			}
+		}
+	} else {
+		context = "No documents selected for context."
 	}
 
 	// Generate response using LLM
@@ -297,20 +322,30 @@ func (h *Handler) ResearchAgent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Start research process (async)
-	go h.llmService.ProcessResearchTask(taskID, req.Query, h.db)
+	// Start research process using Multi-Agent Research Service (async)
+	go func() {
+		if err := h.researchService.ConductResearch(taskID, req.Query); err != nil {
+			fmt.Printf("Research task failed for task %d: %v\n", taskID, err)
+			// Update status to failed
+			h.db.Exec(
+				`UPDATE research_tasks SET status = 'failed', completed_at = NOW() WHERE id = $1`,
+				taskID,
+			)
+		}
+	}()
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"task_id": taskID,
 		"status":  "started",
+		"message": "Research task created. 7-agent workflow initiated.",
 	})
 }
 
 func (h *Handler) GetResearchResult(w http.ResponseWriter, r *http.Request) {
 	userID := r.Context().Value("user_id").(int)
 	taskIDStr := chi.URLParam(r, "id")
-	
+
 	taskID, err := strconv.Atoi(taskIDStr)
 	if err != nil {
 		http.Error(w, "Invalid task ID", http.StatusBadRequest)
@@ -369,7 +404,8 @@ func (h *Handler) ResumeUpload(w http.ResponseWriter, r *http.Request) {
 	_, err = io.Copy(dst, file)
 	if err != nil {
 		http.Error(w, "Failed to save file", http.StatusInternalServerError)
-		return	}
+		return
+	}
 
 	// Save to database
 	var analysisID int
@@ -382,20 +418,30 @@ func (h *Handler) ResumeUpload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Process resume (async)
-	go h.llmService.ProcessResume(analysisID, filePath, jobDescription, h.db)
+	// Process resume using Multi-Agent ATS (async)
+	go func() {
+		if err := h.atsService.AnalyzeResumeAgentic(analysisID, filePath, jobDescription); err != nil {
+			fmt.Printf("ATS analysis failed for resume %d: %v\n", analysisID, err)
+			// Update status to failed
+			h.db.Exec(
+				`UPDATE resume_analyses SET status = 'failed', completed_at = NOW() WHERE id = $1`,
+				analysisID,
+			)
+		}
+	}()
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"analysis_id": analysisID,
 		"status":      "processing",
+		"message":     "Resume uploaded. Multi-agent ATS analysis started.",
 	})
 }
 
 func (h *Handler) GetResumeFeedback(w http.ResponseWriter, r *http.Request) {
 	userID := r.Context().Value("user_id").(int)
 	analysisIDStr := chi.URLParam(r, "id")
-	
+
 	analysisID, err := strconv.Atoi(analysisIDStr)
 	if err != nil {
 		http.Error(w, "Invalid analysis ID", http.StatusBadRequest)
@@ -407,7 +453,7 @@ func (h *Handler) GetResumeFeedback(w http.ResponseWriter, r *http.Request) {
 		`SELECT id, resume_path, job_description, feedback, score, status, created_at, completed_at 
 		 FROM resume_analyses WHERE id = $1 AND user_id = $2`,
 		analysisID, userID,
-	).Scan(&analysis.ID, &analysis.ResumePath, &analysis.JobDescription, 
+	).Scan(&analysis.ID, &analysis.ResumePath, &analysis.JobDescription,
 		&analysis.Feedback, &analysis.Score, &analysis.Status, &analysis.CreatedAt, &analysis.CompletedAt); err != nil {
 		http.Error(w, "Analysis not found", http.StatusNotFound)
 		return
@@ -430,44 +476,65 @@ func (h *Handler) SQLQuery(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Generate SQL from natural language
-	sql, err := h.llmService.GenerateSQL(req.Query)
-	if err != nil {
-		http.Error(w, "Failed to generate SQL", http.StatusInternalServerError)
+	// First, save the query to get an ID
+	var queryID int
+	if err := h.db.QueryRow(
+		`INSERT INTO sql_queries (user_id, natural_query, status) 
+		 VALUES ($1, $2, 'processing') RETURNING id`,
+		userID, req.Query,
+	).Scan(&queryID); err != nil {
+		http.Error(w, "Failed to create query record", http.StatusInternalServerError)
 		return
 	}
 
-	// Execute SQL (placeholder - would need proper database schema)
-	resultData := map[string]interface{}{
-		"message": "SQL execution would happen here",
-		"sql":     sql,
+	// Generate SQL using schema-aware Text-to-SQL service with triple-layer safety
+	generatedSQL, genErr, validationWarnings := h.sqlService.GenerateSQLWithSafety(queryID, req.Query)
+	if genErr != nil {
+		// Update query with error
+		h.db.Exec(
+			`UPDATE sql_queries SET generated_sql = $1, status = 'failed', result_data = $2 WHERE id = $3`,
+			generatedSQL, fmt.Sprintf(`{"error": "%s"}`, genErr.Error()), queryID,
+		)
+		http.Error(w, "Failed to generate SQL: "+genErr.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	// Marshal resultData to JSON string
-	resultDataJSON, err := json.Marshal(resultData)
+	// Execute the safe SQL query
+	results, execErr := h.sqlService.ExecuteSafeSQL(generatedSQL, queryID)
+	if execErr != nil {
+		// Update query with execution error
+		h.db.Exec(
+			`UPDATE sql_queries SET generated_sql = $1, status = 'failed', result_data = $2 WHERE id = $3`,
+			generatedSQL, fmt.Sprintf(`{"error": "%s"}`, execErr.Error()), queryID,
+		)
+		http.Error(w, "SQL execution failed: "+execErr.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Get explanation
+	explanation := h.sqlService.ExplainSQL(generatedSQL)
+
+	// Marshal results to JSON
+	resultDataJSON, err := json.Marshal(results)
 	if err != nil {
 		http.Error(w, "Failed to marshal result data", http.StatusInternalServerError)
 		return
 	}
 
-	// Save query
-	var queryID int
-	if err := h.db.QueryRow(
-		`INSERT INTO sql_queries (user_id, natural_query, generated_sql, result_data) 
-		 VALUES ($1, $2, $3, $4) RETURNING id`,
-		userID, req.Query, sql, resultDataJSON,
-	).Scan(&queryID); err != nil {
-		http.Error(w, fmt.Sprintf("Failed to save query: %v", err), http.StatusInternalServerError)
-		return
-	}
+	// Update query with success
+	h.db.Exec(
+		`UPDATE sql_queries SET generated_sql = $1, result_data = $2, status = 'success' WHERE id = $3`,
+		generatedSQL, resultDataJSON, queryID,
+	)
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"query_id":    queryID,
-		"sql":         sql,
-		"result_data": resultData,
+		"sql":         generatedSQL,
+		"explanation": explanation,
+		"results":     results,
+		"row_count":   len(results),
+		"warnings":    validationWarnings,
+		"safety":      "triple-layer-validated",
 	})
 }
-
-
-
