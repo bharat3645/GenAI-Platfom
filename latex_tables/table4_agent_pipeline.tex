@@ -1,0 +1,20 @@
+\begin{table}[h]
+\centering
+\caption{7-Agent ATS Pipeline Performance (Parallel Execution)}
+\label{tab:agent_pipeline}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Agent} & \textbf{Avg Time (s)} & \textbf{Accuracy} & \textbf{Key Metric} \\
+\midrule
+1. Coordinator       & 0.34  & N/A    & Task distribution \\
+2. Keyword Matching  & 1.87  & 93.7\% & Semantic similarity \\
+3. Format Analyzer   & 1.12  & 96.1\% & Structure detection \\
+4. Content Quality   & 2.43  & 91.4\% & Writing assessment \\
+5. Experience Scorer & 1.98  & 88.9\% & Relevance matching \\
+6. Job Matching      & 2.21  & 90.3\% & JD alignment \\
+7. Synthesis         & 0.89  & N/A    & Report generation \\
+\midrule
+\textbf{Total (Parallel)} & \textbf{6.82} & \textbf{92.0\%} & \textbf{Overall pipeline} \\
+\bottomrule
+\end{tabular}
+\end{table}

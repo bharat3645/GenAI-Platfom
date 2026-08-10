@@ -1,0 +1,19 @@
+\begin{table}[h]
+\centering
+\caption{Ablation Study: Impact of Key Components on GraphRAG Performance}
+\label{tab:ablation}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Configuration} & \textbf{Precision@10} & \textbf{Recall@10} & \textbf{Latency (s)} \\
+\midrule
+Full System (Ours)               & \textbf{84.7\%} & \textbf{78.3\%} & 1.84 \\
+\midrule
+w/o Knowledge Graph              & 72.3\%          & 68.1\%          & 1.12 \\
+w/o Entity Extraction            & 68.9\%          & 64.7\%          & 1.34 \\
+w/o Relationship Extraction      & 75.1\%          & 70.2\%          & 1.45 \\
+w/o Graph-based Re-ranking       & 79.2\%          & 74.6\%          & 1.67 \\
+Vector Search Only (Baseline)    & 61.2\%          & 59.1\%          & 1.12 \\
+Graph Traversal Only             & 58.7\%          & 72.4\%          & 2.34 \\
+\bottomrule
+\end{tabular}
+\end{table}

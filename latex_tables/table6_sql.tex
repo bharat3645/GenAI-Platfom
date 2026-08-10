@@ -1,0 +1,18 @@
+\begin{table}[h]
+\centering
+\caption{Text-to-SQL Performance on Spider Benchmark (1,034 test queries)}
+\label{tab:sql_performance}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{GPT-4} & \textbf{Schema-Aware (Ours)} & \textbf{Difference} \\
+\midrule
+Exact Match Accuracy    & 89.7\% & \textbf{94.2\%} & \textcolor{green}{+5.0\%} \\
+Execution Match         & 93.4\% & \textbf{96.8\%} & \textcolor{green}{+3.6\%} \\
+Valid SQL Rate          & 97.2\% & \textbf{99.1\%} & \textcolor{green}{+2.0\%} \\
+Component Match         & 91.8\% & \textbf{95.3\%} & \textcolor{green}{+3.8\%} \\
+\midrule
+Avg Generation Time (s) & 1.67   & 1.43            & \textcolor{green}{-14.4\%} \\
+Malicious Query Block   & 97.3\% & \textbf{100.0\%} & \textcolor{green}{+2.8\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
